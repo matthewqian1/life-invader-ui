@@ -1,6 +1,8 @@
 import { useState } from "react";
 import NutritionDetails from "./NutritionDetails";
 
+const baseUrl = process.env.REACT_APP_API_BASE_URL
+
 function AddCalories(data){
   const [foodItem, setFoodItem] = useState('');
   const [weightGrams, setWeightGrams] = useState('');
@@ -15,7 +17,7 @@ function AddCalories(data){
       alert("Enter a food item");
       return;
     }
-    fetch(`http://localhost:8080/nutrition/search/${foodItem}` , {
+    fetch(`${baseUrl}/nutrition/search/${foodItem}` , {
       method: 'GET',
       headers: { "Content-Type": "application/json"}
     }).then((result) => {
@@ -44,7 +46,7 @@ function AddCalories(data){
     var yyyy = date.getFullYear();
     date = yyyy + '-' + mm + '-' + dd;
     const body = { foodItem, weightGrams, date };
-    fetch(`http://localhost:8080/nutrition/addEntry` , {
+    fetch(`${baseUrl}/nutrition/addEntry` , {
       method: 'POST',
       headers: { "Content-Type": "application/json", "Authorization": `${data.token}`},
       body: JSON.stringify(body)

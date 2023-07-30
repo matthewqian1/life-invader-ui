@@ -3,6 +3,8 @@ import { Dropdown } from "react-bootstrap";
 import { loginRequest } from "./Login";
 import { useNavigate } from "react-router-dom";
 
+const baseUrl = process.env.REACT_APP_API_BASE_URL
+
 function Register(){
   const [username, setUsername] = useState('matt');
   const [password, setPassword] = useState('password');
@@ -19,7 +21,7 @@ function Register(){
   const suggestCalories = (e) => {
      e.preventDefault();
      const form = { username, password, email, activityLevel, weightKg, heightCm, age, dailyCalorieGoal};
-     fetch('http://localhost:8080/nutrition/getRecommendedCalories' , {
+     fetch(`${baseUrl}/nutrition/getRecommendedCalories` , {
          method: 'POST',
          headers: { "Content-Type": "application/json"},
          body: JSON.stringify(form)
@@ -42,7 +44,7 @@ function Register(){
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = { username, password, email, activityLevel, weightKg, heightCm, age, dailyCalorieGoal};
-      fetch('http://localhost:8080/account/create' , {
+      fetch(`${baseUrl}/account/create` , {
         method: 'POST',
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(form)

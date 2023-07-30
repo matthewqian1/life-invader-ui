@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const baseUrl = process.env.REACT_APP_API_BASE_URL
+
 function Login(){
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -52,7 +54,8 @@ function Login(){
 
 export function loginRequest (username, password, navigate) {
   const credentials = { username, password};
-  fetch('http://localhost:8080/account/login' , {
+  console.log(baseUrl);
+  fetch(`${baseUrl}/account/login` , {
     method: 'POST',
     headers: { "Content-Type": "application/json"},
     body: JSON.stringify(credentials)

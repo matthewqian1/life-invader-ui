@@ -4,6 +4,8 @@ import './App.css';
 import LineGraph from "./components/LineGraph.tsx";
 import AddCalories from "./AddCalories";
 
+const baseUrl = process.env.REACT_APP_API_BASE_URL
+
 function UserPage(){
   const location = useLocation();
   const [username, setUsername] = useState('');
@@ -20,7 +22,7 @@ function UserPage(){
   date = yyyy + '-' + mm + '-' + dd;
   const [consumptionBreakdownDate, setConsumptionBreakdownDate] = useState(date);
   useEffect(() => {
-    fetch('http://localhost:8080/account/account' , {
+    fetch(`${baseUrl}/account/account` , {
       method: 'GET',
       headers: { "Content-Type": "application/json", "Authorization": `${location.state.token}`}
     })
@@ -34,7 +36,7 @@ function UserPage(){
 
   useEffect(() => {
     if (loadConsumptionSnapshot) {
-    fetch('http://localhost:8080/nutrition/consumption/snapshot' , {
+    fetch(`${baseUrl}/nutrition/consumption/snapshot` , {
       method: 'GET',
       headers: { "Content-Type": "application/json", "Authorization": `${location.state.token}`}
     })
@@ -48,7 +50,7 @@ function UserPage(){
   }, [loadConsumptionSnapshot]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/nutrition/consumption/breakdown?date=${consumptionBreakdownDate}` , {
+    fetch(`${baseUrl}/nutrition/consumption/breakdown?date=${consumptionBreakdownDate}` , {
       method: 'GET',
       headers: { "Content-Type": "application/json", "Authorization": `${location.state.token}`}
     })

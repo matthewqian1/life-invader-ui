@@ -64,19 +64,18 @@ function UserPage(){
 
 
   return (
-    <>
+    <div className="basePage" style={{minHeight:"100vh"}}>
     <div>
       <div class="fst-italic" style={{fontSize: '20px'}}>
       Logged in as {username}
       
 </div>
 <img className="profilePhoto" src={require("./img/Doggo.jpg")} alt="profile pic" ></img>
-<div className='heading1'>
+<div className='heading1' style={{backgroundColor:"white"}}>
                 <h1>1 week consumption</h1>
             </div>
-<div className="sideBySide">
-  <LineGraph data={consumptionSnapshot} style></LineGraph>
-  
+<div className="sideBySide" style={{backgroundColor:"white"}}>
+  <LineGraph data={consumptionSnapshot}></LineGraph>
   <AddCalories token={location.state.token} reload={setLoadConsumptionSnapshot}></AddCalories>
   <div className="create">
     <h2 style={{color:"red"}}>Consumption Breakdown ({consumptionBreakdownDate})</h2>
@@ -90,7 +89,7 @@ function UserPage(){
       />
     </form>
     <table>
-      <tr>
+      <tr style={{fontStyle: "italic"}}>
         <th>Food</th>
         <th>Weight(mg)</th>
         <th>Calories</th>
@@ -110,7 +109,7 @@ function UserPage(){
 
     
     </div>
-    </>
+    </div>
   );
 }
  

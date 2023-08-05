@@ -60,9 +60,10 @@ function Register(){
   
 
   return (
-    <div className="create">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="basePage">
+    <div className="create" style={{minHeight: "100vh"}}>
+      <h1 className="pageHeading">Register</h1>
+      <form onSubmit={handleSubmit} style={{paddingTop : "20px"}}>
         <label>Username:</label>
         <input 
           type="text" 
@@ -114,8 +115,14 @@ function Register(){
         <br></br>
         {caloriesSuggested && <label>Calculated Daily Calorie Goal: {dailyCalorieGoal}</label>}
         <br></br>
-        <button disabled={disableSubmit}>Create Account</button>
+        {disableSubmit ? (
+          <button disabled={disableSubmit} style={{opacity:0.6}}>Create Account</button>
+        ) : (
+          <button disabled={disableSubmit} style={{opacity:1}}>Create Account</button>
+        )
+        }
       </form>
+    </div>
     </div>
   );
 }

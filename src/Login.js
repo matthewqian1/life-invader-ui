@@ -14,23 +14,13 @@ function Login(){
   }
 
   return (
-    <div>
+    <div className="basePage" style={{minHeight:"100vh"}}>
+      <h1 className="homeHeading">Welcome to Life Invader!</h1>
       <div>
-        <button onClick={() => {
-          navigate('/register');
-        }}>
-          Register
-        </button>
+      <img src="https://media.giphy.com/media/VJ65NK5synjTaL4D0I/giphy.gif" style={{float:"left"}}></img>
       </div>
-      <div>
-        <button onClick={(e) => {
-          loginRequest("user1", "password", navigate)
-        }}>
-          Log in as test user
-        </button>
-      </div>
+      
       <div className="create">
-        <h2>Login</h2>
         <form onSubmit={handleSubmit}>
           <label>Username:</label>
           <input 
@@ -39,15 +29,29 @@ function Login(){
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <label>Password</label>
+          <label>Password:</label>
           <textarea
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></textarea>
-          <button>Add</button>
+          <button style={{backgroundColor:"green"}}>Login</button>
         </form>
+        <hr></hr>
+        <div >
+        <button style={{backgroundColor: "black", float:"left"}} onClick={() => {
+          navigate('/register');
+        }}>
+          Register
+        </button>
+            <button style={{backgroundColor:"blue", float:"right"}} onClick={() => {
+              loginRequest("user1", "password", navigate)
+            }}>
+                Log in as test user
+            </button>
+          </div>
       </div>
+      
     </div>
   );
 }

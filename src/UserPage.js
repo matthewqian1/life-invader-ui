@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import './App.css';
 import LineGraph from "./components/LineGraph.tsx";
 import AddCalories from "./AddCalories";
@@ -13,7 +13,7 @@ function UserPage(){
   const [consumptionSnapshot, SetConsumptionSnapshot] = useState([]);
   const [loadConsumptionSnapshot, setLoadConsumptionSnapshot] = useState(true);
   const [consumptionBreakdown, setConsumptionBreakdown] = useState([]);
-  const [loadConsumptionBreakdown, setLoadConsumptionBreakdown] = useState(true);
+  const navigate = useNavigate();
 
   var date = new Date();
   var dd = String(date.getDate()).padStart(2, '0');
@@ -61,54 +61,61 @@ function UserPage(){
     })
   }, [consumptionBreakdownDate, loadConsumptionSnapshot]);
   
+  const logout = (e) => {
+    e.preventDefault();
+    fetch(`${baseUrl}/account/logout` , {
+      method: 'POST',
+      headers: { "Content-Type": "application/json", "Authorization": `${location.state.token}`}
 
+    }).then(() =>{
+      navigate('/');
+    })
+  }
 
   return (
     <div className="basePage" style={{minHeight:"100vh"}}>
-    <div>
-      <div class="fst-italic" style={{fontSize: '20px'}}>
-      Logged in as {username}
-      
-</div>
-<img className="profilePhoto" src={require("./img/Doggo.jpg")} alt="profile pic" ></img>
-<div className='heading1' style={{backgroundColor:"white"}}>
-                <h1>1 week consumption</h1>
-            </div>
-<div className="sideBySide" style={{backgroundColor:"white"}}>
-  <LineGraph data={consumptionSnapshot}></LineGraph>
-  <AddCalories token={location.state.token} reload={setLoadConsumptionSnapshot}></AddCalories>
-  <div className="create">
-    <h2 style={{color:"red"}}>Consumption Breakdown ({consumptionBreakdownDate})</h2>
-    <form>
-      <label>Choose Date</label>
-      <input 
-          type="date" 
-          required 
-          value={consumptionBreakdownDate}
-          onChange={(e) => setConsumptionBreakdownDate(e.target.value)}
-      />
-    </form>
-    <table>
-      <tr style={{fontStyle: "italic"}}>
-        <th>Food</th>
-        <th>Weight(mg)</th>
-        <th>Calories</th>
-      </tr>
-      {consumptionBreakdown.map((item) => {
-        return (
-        <tr>
-          <td>{item.foodItem}</td>
-          <td>{item.weightGrams}</td>
-          <td>{item.calories}</td>
-        </tr>
-        )
-      })}
-    </table>
-  </div>
-</div>
-
-    
-    </div>
+      <div>
+      <div class="fst-italic" style={{fontSize: '20px'}}>Logged in as {username}</div>
+      <img className="profilePhoto" src={require("./img/Doggo.jpg")} alt="profile pic" ></img>
+      <div className='heading1' style={{backgroundColor:"white"}}><h1>1 week consumption</h1></div>
+        <div className="sideBySide" style={{backgroundColor:"white"}}>
+        <LineGraph data={consumptionSnapshot}></LineGraph>
+        <AddCalories token={location.state.token} reload={setLoadConsumptionSnapshot}></AddCalories>
+          <div className="create">
+            <h2 style={{color:"red"}}>Consumption Breakdown ({consumptionBreakdownDate})</h2>
+            <form>
+              <label>Choose Date</label>
+              <input 
+                  type="date" 
+                  required 
+                  value={consumptionBreakdownDate}
+                  onChange={(e) => setConsumptionBreakdownDate(e.target.value)}
+              />
+            </form>
+            <table>
+              <tr style={{fontStyle: "italic"}}>
+                <th>Food</th>
+                <th>Weight(mg)</th>
+                <th>Calories</th>
+              </tr>
+              {consumptionBreakdown.map((item) => {
+                return (
+                <tr>
+                  <td>{item.foodItem}</td>
+                  <td>{item.weightGrams}</td>
+                  <td>{item.calories}</td>
+                </tr>
+                )
+              })}
+            </table>
+          </div>
+        </div>
+        <div style={{top: "20px", position: "relative"}}>
+          <button onClick={logout}>
+            Logout
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

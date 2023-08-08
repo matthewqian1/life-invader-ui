@@ -58,7 +58,6 @@ function Login(){
 
 export function loginRequest (username, password, navigate) {
   const credentials = { username, password};
-  console.log(baseUrl);
   fetch(`${baseUrl}/account/login` , {
     method: 'POST',
     headers: { "Content-Type": "application/json"},
@@ -71,8 +70,8 @@ export function loginRequest (username, password, navigate) {
       data.text().then(token => {
         console.log(token);
         navigate('/user', {state:{token:`${token}`}})
-      }
-        )
+        }
+      )
       ;
       
     }

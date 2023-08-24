@@ -30,7 +30,6 @@ function UserPage(){
     .then(data => {
         setUsername(data.username);
         setDailyCalorieGoal(data.dailyCalorieGoal);
-        console.log(dailyCalorieGoal);
     })
   }, []);
 
@@ -42,7 +41,6 @@ function UserPage(){
     })
     .then(res => res.json()) 
     .then(data => {
-        console.log(data);
         SetConsumptionSnapshot(data.history);
         setLoadConsumptionSnapshot(false);
     })
@@ -56,7 +54,6 @@ function UserPage(){
     })
     .then(res => res.json()) 
     .then(data => {
-        console.log(data);
         setConsumptionBreakdown(data);
     })
   }, [consumptionBreakdownDate, loadConsumptionSnapshot]);
@@ -71,20 +68,22 @@ function UserPage(){
       navigate('/');
     })
   }
-
   return (
     <div className="basePage" style={{minHeight:"100vh"}}>
-      <div>
+      <div style={{minHeight:"100vh", maxWidth:"95%", margin: "auto"}}>
       <div class="fst-italic" style={{fontSize: '20px'}}>Logged in as {username}</div>
       <img className="profilePhoto" src={require("./img/Doggo.jpg")} alt="profile pic" ></img>
       <div className='heading1' style={{backgroundColor:"white"}}><h1>1 week consumption</h1></div>
         <div className="sideBySide" style={{backgroundColor:"white"}}>
         <LineGraph data={consumptionSnapshot}></LineGraph>
         <AddCalories token={location.state.token} reload={setLoadConsumptionSnapshot}></AddCalories>
-          <div className="create">
-            <h2 style={{color:"red"}}>Consumption Breakdown ({consumptionBreakdownDate})</h2>
+          
+        </div>
+        <br></br>
+        <div className='heading1' style={{backgroundColor:"white"}}><h1>Consumption Breakdown ({consumptionBreakdownDate})</h1></div>
+        <div style= {{padding: "20px", backgroundColor: "white"}}>
             <form>
-              <label>Choose Date</label>
+              <label>Choose Date: </label>
               <input 
                   type="date" 
                   required 
@@ -92,11 +91,12 @@ function UserPage(){
                   onChange={(e) => setConsumptionBreakdownDate(e.target.value)}
               />
             </form>
-            <table>
+            <br></br>
+            <table style={{width:"100%"}}>
               <tr style={{fontStyle: "italic"}}>
-                <th>Food</th>
-                <th>Weight(mg)</th>
-                <th>Calories</th>
+                <th>FOOD</th>
+                <th>WEIGHT(MG)</th>
+                <th>CALORIES</th>
               </tr>
               {consumptionBreakdown.map((item) => {
                 return (
@@ -109,7 +109,6 @@ function UserPage(){
               })}
             </table>
           </div>
-        </div>
         <div style={{top: "20px", position: "relative"}}>
           <button onClick={logout}>
             Logout
